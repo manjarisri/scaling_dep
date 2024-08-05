@@ -16,7 +16,7 @@ pipeline {
             value: 'my-dep,nginx-deployment'
         )
         choice(name: 'NAMESPACE', choices: 'manjari', description: 'Namespace of the services')
-        choice(name: 'REPLICAS', choices: '['0','1'], description: 'Replica of the services')
+        choice(name: 'REPLICAS', choices: ['0','1'], description: 'Replica of the services')
     }
 
     stages {
