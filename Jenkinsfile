@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        OCP_API_URL = 'http://127.0.0.1:35587'  // Replace with your OpenShift API URL
+        OCP_API_URL = 'https://192.168.49.2:8443'  // Replace with your OpenShift API URL
         OCP_TOKEN = credentials('minikube-token')  // Replace with your Jenkins secret ID
     }
 
