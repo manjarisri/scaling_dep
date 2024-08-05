@@ -41,7 +41,7 @@ pipeline {
                                 "spec": {
                                     "replicas": ${params.REPLICAS}
                                 }
-                            }"""
+                            }""",
                             ignoreSslErrors: true // This will ignore SSL certificate errors
                         )
                         if (scaleResponse.status != 200) {
