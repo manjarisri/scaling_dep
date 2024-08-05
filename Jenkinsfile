@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         OCP_API_URL = 'https://C2C4E47CE918CDF651DAECF73D82428D.gr7.ap-south-1.eks.amazonaws.com'
-        OCP_TOKEN = credentials('eks-token')  // Replace with your Jenkins secret ID
+        kubeconfig= credentials('eksconfig')
     }
 
     parameters {
