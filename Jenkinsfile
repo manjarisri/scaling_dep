@@ -42,6 +42,7 @@ pipeline {
                                     "replicas": ${params.REPLICAS}
                                 }
                             }"""
+                            ignoreSslErrors: true // This will ignore SSL certificate errors
                         )
                         if (scaleResponse.status != 200) {
                             error "Scaling failed for service ${service}: ${scaleResponse.content}"
