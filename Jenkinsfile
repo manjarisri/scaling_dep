@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         OCP_API_URL = 'https://192.168.49.2:8443'  // Replace with your OpenShift API URL
-        OCP_TOKEN = credentials('your-jenkins-secret-id')  // Replace with your Jenkins secret ID
+        OCP_TOKEN = credentials('minikube-token')  // Replace with your Jenkins secret ID
     }
 
     parameters {
@@ -32,14 +32,14 @@ pipeline {
 
                         def scaleResponse = httpRequest(
                             httpMode: 'PUT',
-                            url: "${env.OCP_API_URL}/apis/apps/v1/namespaces/${env.NAMESPACE}/deployments/${service}/scale",
+                            url: "${env.OCP_API_URL}/apis/apps/v1/namespaces/${params.NAMESPACE}/deployments/${service}/scale",
                             customHeaders: [
                                 [name: 'Authorization', value: "Bearer ${env.OCP_TOKEN}"],
                                 [name: 'Content-Type', value: 'application/json']
                             ],
                             requestBody: """{
                                 "spec": {
-                                    "replicas": ${env.REPLICAS}
+                                    "replicas": ${params.REPLICAS}
                                 }
                             }"""
                         )
