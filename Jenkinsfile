@@ -24,32 +24,14 @@ pipeline {
                 script {
                     def services = params.SERVICES_TO_SCALE.split(',')
                     services.each { service ->
-                        def requestBody = """{
-                            "spec": {
-                                "replicas": ${params.REPLICAS},
-                            }
-                        }"""
-                        def url = "${env.OCP_API_URL}/apis/apps/v1/namespaces/${params.NAMESPACE}/deployments/${service}/scale"
-
-                        echo "Request URL: ${url}"
-                        echo "Request Body: ${requestBody}"
-
                         try {
-                            def scaleResponse = httpRequest(
-                                httpMode: 'PUT',
-                                url: url,
-                                customHeaders: [
-                                    [name: 'Authorization', value: "Bearer ${env.OCP_TOKEN}"],
-                                    [name: 'Content-Type', value: 'application/json']
-                                ],
-                                requestBody: requestBody,
-                                ignoreSslErrors: true // Ignoring SSL errors
-                            )
-                            echo "Response Code: ${scaleResponse.status}"
-                            echo "Response Body: ${scaleResponse.content}"
+                            sh """
+                                kubectl scale deployment ${service} --replicas=${params.REPLICAS} --namespace=${params.NAMESPACE}
+                            """
+                            echo "Scaled ${service} to ${params.REPLICAS} replicas"
                         } catch (Exception e) {
-                            echo "Error scaling service ${service}: ${e.message}"
-                            currentBuild.result = 'FAILURE' // Mark build as failed
+                            echo "Error scaling ${service}: ${e.message}"
+                            currentBuild.result = 'FAILURE'
                         }
                     }
                 }
