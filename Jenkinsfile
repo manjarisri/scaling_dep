@@ -43,7 +43,6 @@ pipeline {
                                 }
                             }"""
                         )
-`
                         if (scaleResponse.status != 200) {
                             error "Scaling failed for service ${service}: ${scaleResponse.content}"
                         }
