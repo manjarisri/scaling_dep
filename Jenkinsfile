@@ -26,7 +26,7 @@ pipeline {
                     services.each { service ->
                         def requestBody = """{
                             "spec": {
-                                "replicas": ${params.REPLICAS}
+                                "replicas": ${params.REPLICAS},
                             }
                         }"""
                         def url = "${env.OCP_API_URL}/apis/apps/v1/namespaces/${params.NAMESPACE}/deployments/${service}/scale"
