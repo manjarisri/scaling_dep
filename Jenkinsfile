@@ -27,7 +27,7 @@ pipeline {
                     services.each { service ->
                         try {
                             def scaleResponse = httpRequest(
-                                httpMode: 'PUT',
+                                httpMode: 'POST',
                                 url: "${env.OCP_API_URL}/apis/apps/v1/namespaces/${params.NAMESPACE}/deployments/${service}/scale",
                                 customHeaders: [
                                     [name: 'Authorization', value: "Bearer ${env.OCP_TOKEN}"],
