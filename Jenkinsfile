@@ -20,19 +20,13 @@ pipeline {
     }
 
     stages {
-        stage('Scale Deployments') {
+        stage('Scale Deployment') {
             steps {
                 script {
-                    // Split the comma-separated services into a list
-                    def services = params.SERVICES_TO_SCALE.split(',')
-
-                    // Iterate over each service and scale it
-                    services.each { service ->
-                        echo "Scaling service: ${service}"
-
+                    try {
                         def scaleResponse = httpRequest(
                             httpMode: 'PUT',
-                            url: "${env.OCP_API_URL}/apis/apps/v1/namespaces/${params.NAMESPACE}/deployments/${service}/scale",
+                            url: "${env.OCP_API_URL}/apis/apps/v1/namespaces/${params.NAMESPACE}/deployments/${params.SERVICE}/scale",
                             customHeaders: [
                                 [name: 'Authorization', value: "Bearer ${env.OCP_TOKEN}"],
                                 [name: 'Content-Type', value: 'application/json']
@@ -42,16 +36,15 @@ pipeline {
                                     "replicas": ${params.REPLICAS}
                                 }
                             }""",
-                            ignoreSslErrors: true // This will ignore SSL certificate errors
+                            ignoreSslErrors: true // Ignoring SSL errors
                         )
-                        if (scaleResponse.status != 200) {
-                            error "Scaling failed for service ${service}: ${scaleResponse.content}"
-                        }
-
-                        echo "Scaling successful for service: ${service}"
+                        echo "Response Code: ${scaleResponse.status}"
+                        echo "Response Body: ${scaleResponse.content}"
+                    } catch (Exception e) {
+                        echo "Error: ${e.message}"
+                        currentBuild.result = 'FAILURE' // Mark build as failed
                     }
                 }
             }
         }
-    }
 }
