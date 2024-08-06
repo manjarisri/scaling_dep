@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         OCP_API_URL = 'https://C2C4E47CE918CDF651DAECF73D82428D.gr7.ap-south-1.eks.amazonaws.com'
-        // KUBECONFIG = credentials('eksconfig')
+        KUBECONFIG = credentials('eksconfig')
         AWS_ACCESS_KEY_ID = "AKIATP7YOCW2XZAMEMCC"
         AWS_SECRET_ACCESS_KEY = "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"
     }
