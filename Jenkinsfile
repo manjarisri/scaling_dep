@@ -16,7 +16,8 @@ pipeline {
             multiSelectDelimiter: ',',
             value: 'my-dep,nginx-deployment'
         )
-        choice(name: 'NAMESPACE', choices: 'manjari', description: 'Namespace of the services')
+        choice(name: 'NAMESPACE', choices: ['manjari', 'dev9','test1'], description: 'Namespace of the services')
+        choice(name: 'DEPLOYMENT', choices: getDeployments(params.NAMESPACE), description: 'Select Deployment')
         choice(name: 'REPLICAS', choices: ['0', '1'], description: 'Number of replicas')
     }
 
@@ -50,5 +51,14 @@ pipeline {
                 }
             }
         }
+    }
+}
+def getDeployments(namespace) {
+    if (namespace == 'dev9') {
+        return ['dev9-email', 'dev9-another-service']
+    } else if (namespace == 'test1') {
+        return ['test1-email', 'test1-another-service']
+    } else {
+        return ['No deployments available']
     }
 }
