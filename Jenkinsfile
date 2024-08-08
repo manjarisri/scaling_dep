@@ -16,7 +16,7 @@ pipeline {
             multiSelectDelimiter: ',',
             value: 'my-dep,nginx-deployment'
         )
-        choice(name: 'NAMESPACE', choices: ['manjari', 'dev9','test1'], description: 'Namespace of the services')
+        choice(name: 'NAMESPACE', choices: ['dev9','test1'], description: 'Namespace of the services')
         choice(name: 'DEPLOYMENT', choices: getDeployments(params.NAMESPACE), description: 'Select Deployment')
         choice(name: 'REPLICAS', choices: ['0', '1'], description: 'Number of replicas')
     }
